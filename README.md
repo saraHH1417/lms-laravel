@@ -1,41 +1,28 @@
-# Laravel 8 Learning Management System - (LMS)
+# Laravel 8 LMS 
+#### Computer programming project , KHUSIF University
 
-## Screenshots
-
-![preview img](/preview.jpg)
 
 ## Run Locally
 
-Clone the project
+Clone this project with the following url
 
 ```bash
-  git clone https://github.com/abdulaziz-m5u/course-LMS.git your-project
+  git clone git@github.com:saraHH1417/lms-laravel.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd your-project
-```
-
--   Copy .env.example file to .env and edit database credentials there
-
-```bash
-    composer install
+  cd lms-laravel
 ```
 
 ```bash
-    php artisan key:generate
+    docker-compose up 
 ```
 
-```bash
-    php artisan db:seed
-```
 
 #### Login
 
 -   email = admin@example.com
 -   password = 123
-# lms-laravel
-# lms-laravel
-# lms-laravel
+
