@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/login": {
+        "/auth/login": {
             "post": {
                 "tags": [
                     "auth"
@@ -41,7 +41,7 @@
                     }
                 },
                 "responses": {
-                    "422": {
+                    "401": {
                         "description": "Wrong credentials response",
                         "content": {
                             "application/json": {
@@ -49,7 +49,72 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Sorry, wrong email address or password. Please try again"
+                                            "example": "Email & Password does not match with our record."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register",
+                "description": "Register by email, username, password",
+                "operationId": "authRegister",
+                "requestBody": {
+                    "description": "Pass user register details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "name",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created Successfully"
+                                        },
+                                        "user": {
+                                            "type": "string",
+                                            "example": "1|PFx96rYVBPzZS3Thuw0Bak6KugaaSMiWCq4imusv"
                                         }
                                     },
                                     "type": "object"
