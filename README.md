@@ -16,10 +16,21 @@ Go to the project directory
   cd lms-laravel
 ```
 
+Run below command(Depending on your internet connection speed, it may take a while to download)
+
 ```bash
-    docker-compose up 
+  docker-compose up 
 ```
 
+Then you can access the project on port 8100 in localhost
+```bash
+  http://localhost:8100/
+```
+
+Project api swagger docs are also available in below address
+```bash
+  http://localhost:8100/api/docs
+```
 
 #### Login
 
