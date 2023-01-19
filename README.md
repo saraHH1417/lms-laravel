@@ -16,11 +16,21 @@ Go to the project directory
   cd lms-laravel
 ```
 
+Install curl unzip php and composer in your system with below command
+```bash
+    sudo apt-get install curl unzip php php-curl
+```
+Run below command to install dependencies
+```bash
+    composer install
+```
+
 Run below command(Depending on your internet connection speed, it may take a while to download)
 
 ```bash
   docker-compose up 
 ```
+
 
 Then you can access the project on port 8100 in localhost
 ```bash

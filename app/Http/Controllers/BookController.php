@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
+use App\Models\Book;
+use Doctrine\Inflector\Rules\NorwegianBokmal\Inflectible;
 use Illuminate\Http\Request;
 
 /**
  * @OA\Post(
- * path="/courses",
- * summary="Cerate course",
- * operationId="courseCreate",
- * tags={"courses"},
+ * path="/books",
+ * summary="Cerate Book",
+ * operationId="boookCreate",
+ * tags={"books"},
  * @OA\RequestBody(
  *    required=true,
  *    @OA\JsonContent(
- *       required={"name","price" , "description"},
- *       @OA\Property(property="name", type="string", format="string", example="برنامه نویسی جاوا"),
- *       @OA\Property(property="price", type="integer", format="string", example="210$"),
- *      @OA\Property(property="description", type="string", format="string", example="نوشته نشده"),
+ *       required={"name","topic" , "description"},
+ *       @OA\Property(property="name", type="string", format="string", example="موش و گربه"),
+ *       @OA\Property(property="topic", type="string", format="string", example="کودکان"),
+ *      @OA\Property(property="description", type="string", format="خذتثطف", example="نوشته نشده"),
  *    ),
  * ),
  * @OA\Response(
  *    response=200,
- *     description="course created successfully",
+ *     description="Book created successfully",
  *    @OA\JsonContent(
- *       @OA\Property(property="name", type="string", format="string", example="برنامه نویسی جاوا"),
- *       @OA\Property(property="price", type="integer", format="string", example="210$"),
- *      @OA\Property(property="description", type="string", format="string", example="نوشته نشده"),
+ *       @OA\Property(property="name", type="string", format="string", example="موش و گربه"),
+ *       @OA\Property(property="topic", type="string", format="string", example="کودکان"),
+ *      @OA\Property(property="description", type="string", format="خذتثطف", example="نوشته نشده"),
  *     @OA\Property(property="author_id", type="integer", format="integer", example="1"),
  *     @OA\Property(property="created_at", type="date", format="dateTime", example="2023-01-19T14:09:23.000000Z"),
  *     @OA\Property(property="updated_at", type="date", format="dateTime", example="2023-01-19T14:09:23.000000Z"),
@@ -34,47 +35,47 @@ use Illuminate\Http\Request;
  *     )
  * )
  * @OA\Put(
- * path="/courses/{id}",
- * summary="Cerate course",
- * operationId="courseUpdate",
- * tags={"courses"},
+ * path="/books/{id}",
+ * summary="Cerate Book",
+ * operationId="boookUpdate",
+ * tags={"books"},
  * @OA\Parameter(
- *   name="id",
- *   in="query",
- *   description="course id",
- *   required=true,
+*   name="id",
+*   in="query",
+*   description="Book id",
+*   required=true,
  *  ),
  * @OA\RequestBody(
  *    required=true,
  *    @OA\JsonContent(
- *       required={"name","price" , "description"},
- *       @OA\Property(property="name", type="string", format="string", example="برنامه نویسی جاوا"),
- *       @OA\Property(property="price", type="integer", format="string", example="210$"),
+ *       required={"name","topic" , "description"},
+ *       @OA\Property(property="name", type="string", format="string", example="موش و گربه"),
+ *       @OA\Property(property="topic", type="string", format="string", example="کودکان"),
  *      @OA\Property(property="description", type="string", format="string", example="نوشته نشده"),
  *    ),
  * ),
  * @OA\Response(
  *    response=200,
- *     description="course updated succesfully",
+ *     description="Book updated succesfully",
  *    @OA\JsonContent(
  *       @OA\Property(property="message", type="string", example="کتاب با موفقیت آپدیت شد")
  *        )
  *     )
  * )
  * @OA\Delete(
- * path="/courses/{id}",
- * summary="Delete course",
- * operationId="courseDelete",
- * tags={"courses"},
+ * path="/books/{id}",
+ * summary="Delete Book",
+ * operationId="bookDelete",
+ * tags={"books"},
  * @OA\Parameter(
  *   name="id",
  *   in="query",
- *   description="course id",
+ *   description="Book id",
  *   required=true,
  *  ),
  * @OA\Response(
  *    response=200,
- *     description="course updated successfully",
+ *     description="Book updated successfully",
  *    @OA\JsonContent(
  *       @OA\Property(property="message", type="string", example="کتاب با موفقیت حذف شد")
  *        )
@@ -83,18 +84,17 @@ use Illuminate\Http\Request;
  */
 
 
-class CourseController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Course[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return Book[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        return Course::all();
+        return Book::all();
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -104,8 +104,8 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $course =Course::create($request->all());
-        return $course;
+        $book = Book::create($request->all());
+        return  $book;
     }
 
     /**
@@ -116,7 +116,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        return Course::where("id", $id)->first();
+        return Book::where("id", $id)->first();
     }
 
 
@@ -125,14 +125,14 @@ class CourseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        Course::where('id', $id)->update($request);
+        $book = Book::where("id", $id)->update($request->all());
 
         return response()->json([
-            "message"   =>"کرس با موفقیت آپدیت شد."
+            "message"   =>"کتاب با موفقیت آپدیت شد"
         ]);
     }
 
@@ -140,14 +140,14 @@ class CourseController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Course::where("id", $id)->delete();
+        Book::where("id", $id)->delete();
 
-        return response()->json([
-            "message"   =>"کرس با موفقیت آپدیت شد."
+        return  response()->json([
+           "message"    => "کتاب با موفقیت حذف شد"
         ]);
     }
 }

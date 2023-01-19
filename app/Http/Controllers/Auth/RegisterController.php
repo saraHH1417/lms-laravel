@@ -10,33 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @OA\Post(
- * path="/auth/register",
- * summary="Register",
- * description="Register by email, username, password",
- * operationId="authRegister",
- * tags={"auth"},
- * @OA\RequestBody(
- *    required=true,
- *    description="Pass user register details",
- *    @OA\JsonContent(
- *       required={"email", "name", "password"},
- *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
- *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
- *       @OA\Property(property="password_confirmation", type="string", format="password", example="PassWord12345"),
- *    ),
- * ),
- * @OA\Response(
- *    response=200,
- *    description="Wrong credentials response",
- *    @OA\JsonContent(
- *       @OA\Property(property="message", type="string", example="User created Successfully"),
- *       @OA\Property(property="user", type="string", example="1|PFx96rYVBPzZS3Thuw0Bak6KugaaSMiWCq4imusv")
- *        )
- *     )
- * )
- */
 
 
 class RegisterController extends Controller

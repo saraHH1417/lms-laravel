@@ -3,78 +3,79 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lesson;
+use App\Models\Test;
 use Illuminate\Http\Request;
+
 
 /**
  * @OA\Post(
- * path="/lessons",
- * summary="Cerate lesson",
- * operationId="lessonCreate",
- * tags={"lessons"},
+ * path="/tests",
+ * summary="Cerate test",
+ * operationId="testCreate",
+ * tags={"tests"},
  * @OA\RequestBody(
  *    required=true,
  *    @OA\JsonContent(
- *       required={"name","topic" , "description"},
- *       @OA\Property(property="name", type="string", format="string", example="آبجکت در برنامه نویسی"),
- *       @OA\Property(property="topic", type="string", format="string", example="برنامه نویسی"),
- *      @OA\Property(property="description", type="string", format="خذتثطف", example="نوشته نشده"),
+ *       required={"name","topic" , "course_id"},
+ *       @OA\Property(property="name", type="string", format="string", example="تست بخش دیتابیس"),
+ *       @OA\Property(property="topic", type="string", format="string", example="دیتابیس های رابطه ای"),
+ *      @OA\Property(property="course_id", type="integer", format="integer", example="1"),
  *    ),
  * ),
  * @OA\Response(
  *    response=200,
- *     description="lesson created successfully",
+ *     description="test created successfully",
  *    @OA\JsonContent(
- *       @OA\Property(property="name", type="string", format="string", example="آبجکت در برنامه نویسی"),
- *       @OA\Property(property="topic", type="string", format="string", example="برنامه نویسی"),
- *      @OA\Property(property="description", type="string", format="خذتثطف", example="نوشته نشده"),
- *     @OA\Property(property="course_id", type="integer", format="integer", example="1"),
+ *       @OA\Property(property="name", type="string", format="string", example="تست بخش دیتابیس"),
+ *       @OA\Property(property="topic", type="string", format="string", example="دیتابیس های رابطه ای"),
+ *      @OA\Property(property="course_id", type="integer", format="integer", example="1"),
  *     @OA\Property(property="created_at", type="date", format="dateTime", example="2023-01-19T14:09:23.000000Z"),
  *     @OA\Property(property="updated_at", type="date", format="dateTime", example="2023-01-19T14:09:23.000000Z"),
  *        )
  *     )
  * )
  * @OA\Put(
- * path="/lessons/{id}",
- * summary="Cerate lesson",
- * operationId="lessonUpdate",
- * tags={"lessons"},
+ * path="/tests/{id}",
+ * summary="Cerate test",
+ * operationId="testUpdate",
+ * tags={"tests"},
  * @OA\Parameter(
  *   name="id",
  *   in="query",
- *   description="lesson id",
+ *   description="test id",
  *   required=true,
  *  ),
  * @OA\RequestBody(
  *    required=true,
  *    @OA\JsonContent(
- *       required={"name","topic" , "description"},
- *       @OA\Property(property="name", type="string", format="string", example="آبجکت در برنامه نویسی"),
- *       @OA\Property(property="topic", type="string", format="string", example="برنامه نویسی"),
- *      @OA\Property(property="description", type="string", format="string", example="نوشته نشده"),
+ *       required={"name","topic" , "course_id"},
+ *       @OA\Property(property="name", type="string", format="string", example="تست بخش دیتابیس"),
+ *       @OA\Property(property="topic", type="string", format="string", example="دیتابیس های رابطه ای"),
+ *      @OA\Property(property="course_id", type="integer", format="integer", example="1"),
  *    ),
  * ),
  * @OA\Response(
  *    response=200,
- *     description="lesson updated succesfully",
+ *     description="test updated succesfully",
  *    @OA\JsonContent(
  *       @OA\Property(property="message", type="string", example="درس با موفقیت آپدیت شد")
  *        )
  *     )
  * )
  * @OA\Delete(
- * path="/lessons/{id}",
- * summary="Delete lesson",
- * operationId="lessonDelete",
- * tags={"lessons"},
+ * path="/tests/{id}",
+ * summary="Delete test",
+ * operationId="testDelete",
+ * tags={"tests"},
  * @OA\Parameter(
  *   name="id",
  *   in="query",
- *   description="lesson id",
+ *   description="test id",
  *   required=true,
  *  ),
  * @OA\Response(
  *    response=200,
- *     description="lesson updated successfully",
+ *     description="test updated successfully",
  *    @OA\JsonContent(
  *       @OA\Property(property="message", type="string", example="درس با موفقیت حذف شد")
  *        )
@@ -84,19 +85,17 @@ use Illuminate\Http\Request;
 
 
 
-
-class LessonController extends Controller
+class TestController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Lesson[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return Test[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        return Lesson::all();
+        return Test::all();
     }
-
 
 
     /**
@@ -107,7 +106,7 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        $lesson = Lesson::create($request->all());
+        return Lesson::create($request->all());
     }
 
     /**
@@ -122,7 +121,6 @@ class LessonController extends Controller
     }
 
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -132,10 +130,11 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Lesson::where("id", $id)->update($request->all());
-
+        Lesson::where("id", $id)->update([
+           $request->all()
+        ]);
         return response()->json([
-            "message"   =>"درس با موفقیت آپدیت شد."
+            "message"   =>"تست با موفقیت آپدیت شد."
         ]);
     }
 
@@ -148,10 +147,8 @@ class LessonController extends Controller
     public function destroy($id)
     {
         Lesson::where("id", $id)->delete();
-
         return response()->json([
-            "message"   =>"درس با موفقیت حذف شد."
+            "message"   =>"تست با موفقیت حذف شد."
         ]);
-
     }
 }

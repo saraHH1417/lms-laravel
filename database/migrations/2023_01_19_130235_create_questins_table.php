@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLessonStudentTable extends Migration
+class CreateQuestinsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateLessonStudentTable extends Migration
      */
     public function up()
     {
-        Schema::create('lesson_student', function (Blueprint $table) {
+        Schema::create('questins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lesson_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->text("question");
+            $table->text("answer");
+            $table->unsignedBigInteger("test_id")->nullable();
             $table->timestamps();
+
+            $table->foreign("test_id")
+                ->references("id")
+                ->on("tests");
         });
     }
 
@@ -28,6 +33,6 @@ class CreateLessonStudentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lesson_student');
+        Schema::dropIfExists('questins');
     }
 }

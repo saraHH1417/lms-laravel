@@ -1,3 +1,17 @@
+#FROM composer:2 as composer_stage
+#
+#RUN mkdir -p /usr/src/app/
+#WORKDIR /usr/src/app
+#
+#COPY composer.json composer.lock ./
+#
+## This are production settings, I'm running with 'no-dev', adjust accordingly
+## if you need it
+#RUN composer install --ignore-platform-reqs --prefer-dist --no-scripts --no-progress --no-interaction --no-dev --no-autoloader
+#
+#RUN composer dump-autoload --optimize --apcu --no-dev
+
+
 FROM php:8.1-fpm
 
 
@@ -7,6 +21,7 @@ FROM php:8.1-fpm
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql mysqli
+
 
 # Set the working directory of the container to the hosted directory
 WORKDIR /usr/src/app

@@ -31,20 +31,20 @@ class AuthServiceProvider extends ServiceProvider
         $user = Auth::user();
 
         
-        if (! app()->runningInConsole()) {
-            $roles = Role::with('permission')->get();
-
-            foreach ($roles as $role) {
-                foreach ($role->permission as $permission) {
-                    $permissionArray[$permission->title][] = $role->id;
-                }
-            }
-
-            foreach ($permissionArray as $title => $roles) {
-                Gate::define($title, function (User $user) use ($roles) {
-                    return count(array_intersect($user->role->pluck('id')->toArray(), $roles));
-                });
-            }
-        }
+//        if (! app()->runningInConsole()) {
+//            $roles = Role::with('permission')->get();
+//
+//            foreach ($roles as $role) {
+//                foreach ($role->permission as $permission) {
+//                    $permissionArray[$permission->title][] = $role->id;
+//                }
+//            }
+//
+//            foreach ($permissionArray as $title => $roles) {
+//                Gate::define($title, function (User $user) use ($roles) {
+//                    return count(array_intersect($user->role->pluck('id')->toArray(), $roles));
+//                });
+//            }
+//        }
     }
 }

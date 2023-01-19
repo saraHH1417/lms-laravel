@@ -2,66 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
-        'title',
-        'slug',
-        'description',
-        'price',
-        'course_image',
-        'start_date',
-        'published'
+        "name",
+        "price",
+        "description",
+        "category_id",
+        "created_at",
+        "update_at"
     ];
 
-    public function teachers(){
-        return $this->belongsToMany(User::class, 'course_user');
-    }
 
-    public function getPublishedAttribute($attribute){
-        return [
-            0 => 'Inactive',
-            1 => 'Active'
-        ][$attribute];
-    }
-
-    public function scopeOfTeacher($query)
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        if (!auth()->user()->isAdmin()) {
-            return $query->whereHas('teachers', function($q) {
-                $q->where('user_id', auth()->user()->id);
-            });
-        }
-        return $query;
+        return $this->belongsTo(Category::class);
     }
 
-    public function publishedLessons()
-    {
-        return $this->hasMany(Lesson::class)->orderBy('position')->where('published', 1);
+
+    public function reviews() {
+        return $this->hasMany(Course::class);
     }
 
-    public function students()
-    {
-        return $this->belongsToMany(User::class, 'course_student')->withTimestamps()->withPivot(['rating']);;
+    public function test() {
+        return $this->hasOne(Test::class);
     }
-
-    public function lessons()
-    {
-        return $this->hasMany(Lesson::class)->orderBy('position');
-    }
-
-    public function getRatingAttribute()
-    {
-        return number_format(DB::table('course_student')->where('course_id', $this->attributes['id'])->average('rating'), 2);
-    }
-
 
 }
-
