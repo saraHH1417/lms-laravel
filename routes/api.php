@@ -18,6 +18,11 @@ Route::post('/auth/login', [\App\Http\Controllers\Auth\LoginController::class , 
 
 
 Route::resource("books", \App\Http\Controllers\BookController::class);
+Route::resource("categories", \App\Http\Controllers\CategroyController::class);
+Route::resource("courses", \App\Http\Controllers\CourseController::class);
+Route::resource("lessons", \App\Http\Controllers\LessonController::class);
+Route::resource("questions", \App\Http\Controllers\QuestionController::class);
+Route::resource("tests", \App\Http\Controllers\TestController::class);
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
