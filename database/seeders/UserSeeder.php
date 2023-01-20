@@ -16,11 +16,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         try {
-            for ($i =0; $i < 10; $i++) {
-                $user = ['name' => 'زهرا', 'email' => "adminn${i}@example.com", 'password' => bcrypt('123'), 'remember_token' => ''];
-                User::create($user);
-            }
-        } catch (QueryException $ssception) {
+            $user = ['name' => 'زهرا', 'email' => "admin@example.com", 'password' => bcrypt('123'), 'remember_token' => ''];
+            User::create($user);
+        } catch (QueryException $exception) {
 
         }
     }
